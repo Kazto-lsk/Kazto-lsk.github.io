@@ -13,6 +13,9 @@
                 font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
                     "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
             }
+            input[type="text"] {
+                border: 1px solid #000;
+            }
         </style>
 
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -55,20 +58,21 @@
     </div>
     
     <br><br>
-
-    <!-- 체크박스들 -->
-    <input type="checkbox" id="checkbox1" name="checkbox[]" checked value="주유이동">
-    <label for="checkbox1">주유이동</label>
+    <div class="Checkbox_divide_move_type">
+        <!-- 체크박스들 -->
+        <input type="checkbox" id="checkbox1" name="checkbox[]" checked value="주유이동">
+        <label for="checkbox1">주유이동</label>
+        
     
-
-    <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 이동(내/외부)">
-    <label for="checkbox2">세차 이동 (내/외부)</label>
-    
-    <input type="checkbox" id="checkbox3" name="checkbox[]" value="정비이동">
-    <label for="checkbox3">정비이동</label>
-    
-    <input type="checkbox" id="checkbox4" name="checkbox[]" value="딜리버리 이동">
-    <label for="checkbox4">딜리버리</label>
+        <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 이동(내/외부)">
+        <label for="checkbox2">세차 이동 (내/외부)</label>
+        
+        <input type="checkbox" id="checkbox3" name="checkbox[]" value="정비이동">
+        <label for="checkbox3">정비이동</label>
+        
+        <input type="checkbox" id="checkbox4" name="checkbox[]" value="딜리버리 이동">
+        <label for="checkbox4">딜리버리</label>
+    </div>
     
 
     <br><br>
