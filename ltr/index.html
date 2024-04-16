@@ -23,7 +23,7 @@
 
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-        <title>분당 예약소 자동화 서비스</title>
+        <title>차량 세차 정보 자동화 서비스</title>
 
         <!--Github Page는 PHP를 렌더링 할 수 없음으로, 대부분의 스크립트를 Ajax / JS 처리 -->
         <script>
@@ -59,8 +59,6 @@
     <div class="bg-gray rounded-md">
         이동 시간의 경우 시간 초기화를 누르면 버튼을 누른 시간으로 출발 시간이 설정되며, 도착시간은 출발 시간 으로부터 15분 후로 자동 입력됩니다.
     </div>
-    
-    <br><br>
     <div class="Checkbox_divide_move_type">
         <!-- 체크박스들 -->
         <input type="checkbox" id="checkbox1" name="checkbox[]" checked value="주유이동">
@@ -72,6 +70,15 @@
         
         <input type="checkbox" id="checkbox3" name="checkbox[]" value="정비이동">
         <label for="checkbox3">정비이동</label>
+        
+        <input type="checkbox" id="checkbox4" name="checkbox[]" value="딜리버리 이동">
+        <label for="checkbox4">딜리버리</label>
+    </div>
+
+    <div class="Checkbox_divide_move_type">
+        <!-- 체크박스들 -->
+        <input type="checkbox" id="checkbox4" name="checkbox[]" value="픽업 이동">
+        <label for="checkbox4">픽</label>
         
         <input type="checkbox" id="checkbox4" name="checkbox[]" value="딜리버리 이동">
         <label for="checkbox4">딜리버리</label>
