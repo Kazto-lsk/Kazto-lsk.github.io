@@ -18,6 +18,14 @@
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
         <title>분당 예약소 자동화 서비스</title>
+
+        <!--Github Page는 PHP를 렌더링 할 수 없음으로, 대부분의 스크립트를 Ajax / JS 처리 -->
+        <script>
+            windows.onload = function(){
+                updateInput();
+            }
+
+        </script>
     </head>
 
 <body class="container mx-auto p-4">
@@ -72,10 +80,10 @@
     <br><br>
 
     <label for="move_1">출발</label>
-    <input class="w-20" type="text" id="move_1" name="move_1" value="<?php echo $current_time; ?>" required="required" autocomplete='false' autocomplete='off'>
+    <input class="w-20" type="text" id="move_1" name="move_1" value="" required="required" autocomplete='false' autocomplete='off'>
 
     <label for="move_2">도착</label>
-    <input class="w-20" type="text" id="move_2" name="move_2" value="<?php echo $future_time; ?>" required="required" autocomplete='false' autocomplete='off' >
+    <input class="w-20" type="text" id="move_2" name="move_2" value="" required="required" autocomplete='false' autocomplete='off' >
     <input type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" value="시간 초기화" onclick="updateInput()">
     <br><br>
 
@@ -124,7 +132,7 @@
         // AJAX 요청
         $.ajax({
             type: 'POST',
-            url: 'process_reservation.php', 
+            url: 'https://wonder-rabbit.com/backed/ltr/process_reservation.php', 
             data: formData,
             success: function(response) {
                 // 결과를 출력할 컨테이너에 내용 업데이트
