@@ -67,10 +67,10 @@
         <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 (외부)">
         <label for="checkbox2">세차(외부)</label>
 
-        <input type="checkbox" id="checkbox2" name="checkbox[]" value="세차 (내부)">
+        <input type="checkbox" id="checkbox21" name="checkbox[]" value="세차 (내부)">
         <label for="checkbox2">세차(내부)</label>
 
-         <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 (내/외부)">
+         <input type="checkbox" id="checkbox22" name="checkbox[]" checked value="세차 (내/외부)">
         <label for="checkbox2">세차(내/외부)</label>
         
         <input type="checkbox" id="checkbox3" name="checkbox[]" value="정비">
@@ -192,6 +192,30 @@ function copyToClipboard() {
 
 
 <script>
+
+function getParams(){
+    var url = window.location.search.replace('?','');
+    var params = {};
+    var urlArray = url.split('&');
+
+    for(var i in urlArray)
+    {
+      var param = urlArray[i].split('=');
+      params[param[0]] = param[1]; 
+    }
+    return params;
+
+    string branch_id = request.getParameter("branch_id");
+    if(branch_id == '506'){
+        document.getElementById('move_location').value = "분당 -> GS -> 분당";
+    }else if(branch_id == '415'){
+        document.getElementById('move_location').value = "송파 -> GS -> 송파";
+    }else if(branch_id == '417'){
+        document.getElementById('move_location').value = "천호 -> SK -> 천호";
+    }
+}
+
+
 // 현재 시간을 가져오고 'HH:ii' 형식으로 변환하는 함수
 function getCurrentTime() {
     var now = new Date();
