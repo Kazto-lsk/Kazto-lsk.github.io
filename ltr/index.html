@@ -61,15 +61,17 @@
     </div>
     <div class="Checkbox_divide_move_type">
         <!-- 체크박스들 -->
-        <input type="checkbox" id="checkbox1" name="checkbox[]" checked value="주유이동">
-        <label for="checkbox1">주유이동</label>
-        
+        <input type="checkbox" id="checkbox1" name="checkbox[]" value="주유이동">
+        <label for="checkbox1">주유이동</label>        
     
         <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 (외부)">
         <label for="checkbox2">세차(외부)</label>
 
-        <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 (내부)">
+        <input type="checkbox" id="checkbox2" name="checkbox[]" value="세차 (내부)">
         <label for="checkbox2">세차(내부)</label>
+
+         <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 (내/외부)">
+        <label for="checkbox2">세차(내/외부)</label>
         
         <input type="checkbox" id="checkbox3" name="checkbox[]" value="정비">
         <label for="checkbox3">정비</label>
@@ -98,7 +100,7 @@
     <!-- 입력 폼 -->
     <label for="car_number">차량번호</label>
     <input class="w-28" type="text" id="car_number" name="car_number" required="required" autocomplete='false' autocomplete='off' >
-    <input type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" value="초기화" onClick="window.location.reload()">
+        <input type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" value="초기화" onClick="updateInput()">
     <br><br>
 
     <label for="move_1">출발</label>
@@ -106,7 +108,7 @@
 
     <label for="move_2">도착</label>
     <input class="w-20" type="text" id="move_2" name="move_2" value="" required="required" autocomplete='false' autocomplete='off' >
-    <input type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" value="시간 초기화" onclick="updateInput()">
+    
     <br><br>
 
     <label for="move_km1">출발 km</label>
@@ -211,8 +213,19 @@ function calculateTimeAfter15Minutes() {
 function updateInput() {
     var currentTime = getCurrentTime();
     var next_time = calculateTimeAfter15Minutes();
+
+    //현재 시간 기준으로 새로 시간을 초기화 함
     document.getElementById('move_1').value = currentTime;
     document.getElementById('move_2').value = next_time;
+
+    //차량 번호, 출/도착 KM, 주유 금액을 모두 초기화 함.
+    document.getElementById('car_number').value = "";
+    document.getElementById('move_km1').value = "";
+    document.getElementById('move_km2').value = "";
+    document.getElementById('oil_price').value = "";
+    document.getElementById('move_location').value = "";
+
+    
 }
 
 // 초기화면에 현재 시간 표시
