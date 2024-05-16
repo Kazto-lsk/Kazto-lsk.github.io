@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="manifest" href="manifest.json">
+        <meta name="theme-color" content="#000000">
 
         <!-- CSS HS -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -27,11 +29,91 @@
 
         <!--Github Page는 PHP를 렌더링 할 수 없음으로, 대부분의 스크립트를 Ajax / JS 처리 -->
         <script>
+
             window.onload = function(){
-                getParams();
+
                 updateInput();
+
+                // 현재 페이지의 URL을 가져옴
+                const url = window.location.href;
+
+                // URL을 URL 객체로 만듦
+                const urlObj = new URL(url);
+
+                // URLSearchParams 객체를 통해 쿼리 파라미터를 가져옴
+                const params = new URLSearchParams(urlObj.search);
+
+                // 영업소 ID 추출
+                const branchId = params.get('branch_id');
+
+                const outputElement = document.getElementById('output');
+                
+
+                if(branchId == '506'){
+                    document.getElementById('move_location').value = "분당 -> GS -> 분당";
+                    outputElement.textContent = "분당예약소";
+                }else if(branchId == '415'){
+                    document.getElementById('move_location').value = "송파 -> GS -> 송파";
+                    outputElement.textContent = "송파영업소";
+                }else if(branchId == '417'){
+                    document.getElementById('move_location').value = "천호 -> SK -> 천호";
+                    outputElement.textContent = "천호예약소";
+                }
             }
 
+            // 현재 시간을 가져오고 'HH:ii' 형식으로 변환하는 함수
+            function getCurrentTime() {
+                var now = new Date();
+                var hours = now.getHours().toString().padStart(2, '0');
+                var minutes = now.getMinutes().toString().padStart(2, '0');
+                return hours + ':' + minutes;
+            }
+
+            // 15분 후의 시간을 계산하는 함수
+            function calculateTimeAfter15Minutes() {
+                var now = new Date();
+                now.setMinutes(now.getMinutes() + 15);
+                var hours = now.getHours().toString().padStart(2, '0');
+                var minutes = now.getMinutes().toString().padStart(2, '0');
+                return hours + ':' + minutes;
+            }
+
+            // 현재 시간으로 input 업데이트하는 함수
+            function updateInput() {
+                var currentTime = getCurrentTime();
+                var next_time = calculateTimeAfter15Minutes();
+
+                //현재 시간 기준으로 새로 시간을 초기화 함
+                document.getElementById('move_1').value = currentTime;
+                document.getElementById('move_2').value = next_time;
+
+                //차량 번호, 출/도착 KM, 주유 금액을 모두 초기화 함.
+                document.getElementById('car_number').value = "";
+                document.getElementById('move_km1').value = "";
+                document.getElementById('move_km2').value = "";
+                document.getElementById('oil_price').value = "";
+
+                // 현재 페이지의 URL을 가져옴
+                const url = window.location.href;
+
+                // URL을 URL 객체로 만듦
+                const urlObj = new URL(url);
+
+                // URLSearchParams 객체를 통해 쿼리 파라미터를 가져옴
+                const params = new URLSearchParams(urlObj.search);
+
+                // 영업소 ID 추출
+                const branchId = params.get('branch_id');
+
+                if(branchId == '506'){
+                    document.getElementById('move_location').value = "분당 -> GS -> 분당";
+                }else if(branchId == '415'){
+                    document.getElementById('move_location').value = "송파 -> GS -> 송파";
+                }else if(branchId == '417'){
+                    document.getElementById('move_location').value = "천호 -> SK -> 천호";
+                }
+                
+            }
         </script>
     </head>
 
@@ -44,7 +126,7 @@
             <div class="grid justify-center md:grid-cols-2 md:justify-between md:items-center gap-2">
                 <div class="text-center md:text-start">
                     <p class="mt-1 text-white font-medium">
-                    분당예약소 세차/이동간 자동화 툴
+                        세차/이동간 자동화 툴
                     </p>
                 </div>
                 <!-- End Col -->
@@ -53,45 +135,52 @@
         </div>
     </div>
     <!-- End Announcement Banner -->
+    
 
-
-
-<form id="myForm" class="pt-8 pb-8" autocomplete="off">
-    <div class="bg-gray rounded-md">
-        이동 시간의 경우 시간 초기화를 누르면 버튼을 누른 시간으로 출발 시간이 설정되며, 도착시간은 출발 시간 으로부터 15분 후로 자동 입력됩니다.
+    <div class="pt-4">
+        <div class="border-l-4 border-blue-500 p-2" role="alert">
+            <p class="font-bold">접속 영업소 모드 : <span id="output"></span></p>
+        </div>
     </div>
-    <div class="Checkbox_divide_move_type">
+
+<form id="myForm" class="pt-4 pb-4" autocomplete="off">
+    <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p class="font-bold">이용 방법</p>
+        <p class="text-sm">새로운 차량을 세차시, 초기화 버튼을 누르면 경로와 시간을 버튼을 누른 시간 기준으로 초기화 합니다.</p>
+    </div>
+
+    <div class="Checkbox_divide_move_type pt-8">
         <!-- 체크박스들 -->
         <input type="checkbox" id="checkbox1" name="checkbox[]" value="주유이동">
-        <label for="checkbox1">주유이동</label>        
+        <label for="checkbox1">주유</label>        
     
-        <input type="checkbox" id="checkbox2" name="checkbox[]" checked value="세차 (외부)">
+        <input type="checkbox" id="checkbox2" name="checkbox[]" value="세차 (외부)">
         <label for="checkbox2">세차(외부)</label>
 
         <input type="checkbox" id="checkbox21" name="checkbox[]" value="세차 (내부)">
-        <label for="checkbox2">세차(내부)</label>
+        <label for="checkbox21">세차(내부)</label>
 
          <input type="checkbox" id="checkbox22" name="checkbox[]" checked value="세차 (내/외부)">
-        <label for="checkbox2">세차(내/외부)</label>
+        <label for="checkbox22">세차(내/외부)</label>
         
-        <input type="checkbox" id="checkbox3" name="checkbox[]" value="정비">
-        <label for="checkbox3">정비</label>
         
         
     </div>
 
     <div class="Checkbox_divide_move_type">
         <!-- 체크박스들 -->
+        <input type="checkbox" id="checkbox3" name="checkbox[]" value="정비">
+        <label for="checkbox3">정비</label>
 
         <input type="checkbox" id="checkbox4" name="checkbox[]" value="딜리버리 (대여)">
         <label for="checkbox4">딜리버리 (대여)</label>
 
         <input type="checkbox" id="checkbox4" name="checkbox[]" value="딜리버리 (반납)">
-        <label for="checkbox4">딜리버리 (반납)</label>
+        <label for="checkbox41">딜리버리 (반납)</label>
 
         
         <input type="checkbox" id="checkbox4" name="checkbox[]" value="딜리버리 픽업">
-        <label for="checkbox4">딜리버리 픽업</label>
+        <label for="checkbox42">딜리버리 픽업</label>
         
     </div>
     
@@ -121,7 +210,7 @@
     <br><br>
 
     <label for="move_location">이동경로 (미입력시 분당 GS 분당)</label>
-    <input class="w-20" type="text" id="move_location" name="move_location" required="required" autocomplete='false' autocomplete='off'>
+    <input class="w-40" type="text" id="move_location" name="move_location" required="required" autocomplete='false' autocomplete='off'>
 
     <br><br>
 
@@ -192,72 +281,6 @@ function copyToClipboard() {
 </script>
 
 
-<script>
-
-function getParams(){
-    var url = window.location.search.replace('?','');
-    var params = {};
-    var urlArray = url.split('&');
-
-    for(var i in urlArray)
-    {
-      var param = urlArray[i].split('=');
-      params[param[0]] = param[1]; 
-    }
-    return params;
-
-    string branch_id = request.getParameter("branch_id");
-    if(branch_id == '506'){
-        document.getElementById('move_location').value = "분당 -> GS -> 분당";
-    }else if(branch_id == '415'){
-        document.getElementById('move_location').value = "송파 -> GS -> 송파";
-    }else if(branch_id == '417'){
-        document.getElementById('move_location').value = "천호 -> SK -> 천호";
-    }
-}
-
-
-// 현재 시간을 가져오고 'HH:ii' 형식으로 변환하는 함수
-function getCurrentTime() {
-    var now = new Date();
-    var hours = now.getHours().toString().padStart(2, '0');
-    var minutes = now.getMinutes().toString().padStart(2, '0');
-    return hours + ':' + minutes;
-}
-
-// 15분 후의 시간을 계산하는 함수
-function calculateTimeAfter15Minutes() {
-    var now = new Date();
-    now.setMinutes(now.getMinutes() + 15);
-    var hours = now.getHours().toString().padStart(2, '0');
-    var minutes = now.getMinutes().toString().padStart(2, '0');
-    return hours + ':' + minutes;
-}
-
-// 현재 시간으로 input 업데이트하는 함수
-function updateInput() {
-    var currentTime = getCurrentTime();
-    var next_time = calculateTimeAfter15Minutes();
-
-    //현재 시간 기준으로 새로 시간을 초기화 함
-    document.getElementById('move_1').value = currentTime;
-    document.getElementById('move_2').value = next_time;
-
-    //차량 번호, 출/도착 KM, 주유 금액을 모두 초기화 함.
-    document.getElementById('car_number').value = "";
-    document.getElementById('move_km1').value = "";
-    document.getElementById('move_km2').value = "";
-    document.getElementById('oil_price').value = "";
-    document.getElementById('move_location').value = "";
-
-    
-}
-
-// 초기화면에 현재 시간 표시
-//document.getElementById('currentTime').innerText = getCurrentTime();
-</script>
-
-
 <footer class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
     <!-- Grid -->
     <div class="text-center">
@@ -274,6 +297,73 @@ function updateInput() {
     </div>
     <!-- End Grid -->
 </footer>
+
+
+
+
+<div class="fixed bottom-0 z-50 w-full -translate-x-1/2 bg-white border-t border-gray-200 left-1/2 dark:bg-gray-700 dark:border-gray-600">
+    <div class="grid h-full max-w-lg grid-cols-5 mx-auto">
+        <button data-tooltip-target="tooltip-home" type="button" class="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"
+                />
+            </svg>
+            <span class="sr-only">Home</span>
+        </button>
+        <div id="tooltip-home" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            Home
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <button data-tooltip-target="tooltip-bookmark" type="button" class="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
+                <path d="M13 20a1 1 0 0 1-.64-.231L7 15.3l-5.36 4.469A1 1 0 0 1 0 19V2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v17a1 1 0 0 1-1 1Z" />
+            </svg>
+            <span class="sr-only">Bookmark</span>
+        </button>
+        <div id="tooltip-bookmark" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            Bookmark
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <button data-tooltip-target="tooltip-post" type="button" class="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+            </svg>
+            <span class="sr-only">New post</span>
+        </button>
+        <div id="tooltip-post" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            New post
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <button data-tooltip-target="tooltip-search" type="button" class="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            </svg>
+            <span class="sr-only">Search</span>
+        </button>
+        <div id="tooltip-search" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            Search
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <button data-tooltip-target="tooltip-settings" type="button" class="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+            <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
+                />
+            </svg>
+            <span class="sr-only">Settings</span>
+        </button>
+        <div id="tooltip-settings" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            Settings
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+    </div>
+</div>
+
 
 
 </body>
