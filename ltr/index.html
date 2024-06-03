@@ -53,7 +53,7 @@
                     document.getElementById('move_location').value = "분당 -> GS -> 분당";
                     outputElement.textContent = "분당예약소";
                 }else if(branchId == '415'){
-                    document.getElementById('move_location').value = "송파 -> GS -> 송파";
+                    document.getElementById('move_location').value = "가든 -> GS -> 가든";
                     outputElement.textContent = "송파영업소";
                 }else if(branchId == '417'){
                     document.getElementById('move_location').value = "천호 -> SK -> 천호";
@@ -151,7 +151,7 @@
 
     <div class="Checkbox_divide_move_type pt-8">
         <!-- 체크박스들 -->
-        <input type="checkbox" id="checkbox1" name="checkbox[]" value="주유이동">
+        <input type="checkbox" id="checkbox1" name="checkbox[]" value="주유">
         <label for="checkbox1">주유</label>        
     
         <input type="checkbox" id="checkbox2" name="checkbox[]" value="세차 (외부)">
@@ -217,6 +217,10 @@
     <label for="oil_price">주유금액(미입력시 미출력)</label>
     <input class="w-20" type="text" id="oil_price" name="oil_price" required="required" autocomplete='false' autocomplete='off'>
 
+    <input type="checkbox" id="checkbox_oiltype" name="checkbox_oiltype" value="고부담">
+    <label for="checkbox2">고부담인 경우</label>
+
+    
     <br><br>
 
     <!-- 제출 버튼 -->
